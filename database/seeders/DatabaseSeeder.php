@@ -14,8 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        // Panggil seeder yang ingin Anda jalankan di sini
+        \App\Models\User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@gmail.com',
+            'is_admin' => true
+        ]);
+        
         $this->call([
         CountriesTableSeeder::class,
         StatesTableSeeder::class,
