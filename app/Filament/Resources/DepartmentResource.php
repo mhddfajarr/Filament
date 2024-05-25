@@ -9,15 +9,10 @@ use App\Models\Department;
 use Filament\Tables\Table;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
-use Filament\Forms\Components\TextInput;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Infolists\Components\Section;
+use Filament\Forms\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers;
 
 class DepartmentResource extends Resource
 {

@@ -22,7 +22,7 @@ use App\Filament\App\Resources\DepartmentResource\RelationManagers;
 class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
-
+    protected static ?string $modelLabel = 'Department';
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     public static function form(Form $form): Form
