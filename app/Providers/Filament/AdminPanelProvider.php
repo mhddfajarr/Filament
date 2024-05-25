@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->userMenuItems([
                 MenuItem::make()
-                ->label('Dashboard')
+                ->label('Dashboard Team')
                 ->icon('heroicon-o-cog-6-tooth')
                 ->url('/app')
             ])
