@@ -2,7 +2,7 @@
 
 namespace App\Filament\App\Resources;
 
-
+use App\Exports\EmployeesExport;
 use Filament\Forms;
 use App\Models\City;
 use Filament\Tables;
@@ -22,6 +22,8 @@ use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\EmployeeResource\Pages;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers;
+use Filament\Tables\Actions\BulkAction;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeResource extends Resource
 {
@@ -154,6 +156,12 @@ class EmployeeResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    BulkAction::make('export')
+                    ->label('Export to Excel')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->action(function(collection $records){
+                        return Excel::download(new EmployeesExport($records), 'Employees.xlsx');
+                    })
                 ]),
             ]);
     }
