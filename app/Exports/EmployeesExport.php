@@ -16,6 +16,7 @@ class EmployeesExport implements FromCollection, WithMapping, WithHeadings
     public function __construct(public Collection $records)
     {
         // $this->records = $records;
+        
     }
     /**
     * @return \Illuminate\Support\Collection
