@@ -4,9 +4,12 @@ namespace App\Filament\App\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Employee;
+use App\Models\TeamUser;
 use Filament\Forms\Form;
 use App\Models\Department;
 use Filament\Tables\Table;
+use Filament\Facades\Filament;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
@@ -87,6 +90,16 @@ class DepartmentResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        // mengambil info user info
+        $tenant = Filament::getTenant();
+        // cari team user berdasarkan primary key karena otomatis sama antara primary key user dan team
+        $teamUser = TeamUser::where('id', $tenant['id'])->first();
+        $count = Department::where('team_id', $teamUser->id)->count();
+        return (string) $count;
     }
 
     public static function getPages(): array

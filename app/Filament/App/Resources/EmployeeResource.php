@@ -2,7 +2,6 @@
 
 namespace App\Filament\App\Resources;
 
-use App\Exports\EmployeesExport;
 use Filament\Forms;
 use App\Models\City;
 use Filament\Tables;
@@ -10,20 +9,26 @@ use App\Models\State;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use App\Models\Employee;
+use App\Models\TeamUser;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Facades\Filament;
+use App\Exports\EmployeesExport;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Facades\Excel;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\EmployeeResource\Pages;
 use App\Filament\App\Resources\EmployeeResource\RelationManagers;
-use Filament\Tables\Actions\BulkAction;
-use Maatwebsite\Excel\Facades\Excel;
 
 class EmployeeResource extends Resource
 {
@@ -196,6 +201,16 @@ class EmployeeResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        // mengambil info user info
+        $tenant = Filament::getTenant();
+        // cari team user berdasarkan primary key karena otomatis sama antara primary key user dan team
+        $teamUser = TeamUser::where('id', $tenant['id'])->first();
+        $count = Employee::where('team_id', $teamUser->id)->count();
+        return (string) $count;
     }
 
     public static function getPages(): array

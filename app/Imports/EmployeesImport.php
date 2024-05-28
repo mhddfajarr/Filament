@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Models\TeamUser;
 use Maatwebsite\Excel\Row;
 use Filament\Facades\Filament;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -31,16 +32,24 @@ class EmployeesImport implements ToModel, WithHeadingRow
         // masukkan data team_id ke variabel getID
         $getID = $teamUser['team_id'];
 
+       
+        $country = Country::where('name', $row['country'])->first();
+        // if ($state) {
+        //     $getCountryID = $state->id;
+        //     dd($getCountryID); 
+        // } else {
+        //     dd('Country not found'); 
+        // };
+        $state = State::where('name', $row['state'])->first();
+        $city = City::where('name', $row['city'])->first();
+        $department = Department::where('name', $row['department'])->first();
         return new Employee([
            'team_id' => $getID,
-           'state_id' => 1666,
-           'country_id' => 102,
-           'city_id' => 21460,
-           'department_id' => 52,
-        //    'state_id' => self::getStateId($row['state']),
+           'country_id' => $country->id,
+           'state_id' => $state->id,
+           'city_id' => $city->id,
+           'department_id' => $department->id,
         //    'country_id' => self::getCountryId($row['country']),
-        //    'city_id' => self::getCityId($row['city']),
-        //    'department_id' => self::getDepartmentId($row['department']),
            'first_name' => $row['first_name'],
            'middle_name' => $row['middle_name'],
            'last_name' => $row['last_name'],
@@ -54,20 +63,8 @@ class EmployeesImport implements ToModel, WithHeadingRow
 
     }
 
-    public static function getStateId(string $state)
-    {
-        return State::where('name', $state)->first()->id;
-    }
-    public static function getCountryId(string $country)
-    {
-        return Country::where('name', $country)->first()->id;
-    }
-    public static function getCityId(string $city)
-    {
-        return City::where('name', $city)->first()->id;
-    }
-    public static function getDepartmentId(string $department)
-    {
-        return Department::where('name', $department)->first()->id;
-    }
+    // public static function getStateId(string $state)
+    // {
+    //     return State::where('name', $state)->first()->id;
+    // }
 }
